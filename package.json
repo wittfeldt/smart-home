@@ -1,0 +1,26 @@
+{
+  "name": "smart-home",
+  "version": "1.0.0",
+  "description": "My smart home setup",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tellstick",
+    "aws",
+    "iot",
+    "1wire",
+    "raspberrypi"
+  ],
+  "author": "Anders Wittfeldt <andersw@barometer.se>",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.2.26",
+    "bluebird": "^3.1.1",
+    "lodash": "^3.10.1",
+    "stdio": "^0.2.7",
+    "tellsock": "^0.3.0",
+    "through2": "^2.0.0"
+  }
+}
