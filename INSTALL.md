@@ -11,7 +11,7 @@ sudo diskutil eject /dev/rdisk3
 
 # Setup
 
-# Create ~/.ssh and ~/.aws as appropriate
+Create ~/.ssh and ~/.aws as appropriate
 ```
 sudo raspi-config # expand filesystem
 sudo apt-get update
@@ -49,19 +49,18 @@ sudo dpkg -i libtelldus-core-dev_2.1.2-1_armhf.deb
 sudo dpkg -i telldus-core_2.1.2-1_armhf.deb
 
 sudo vi /boot/config.txt
-    dtoverlay=w1-gpio,gpiopin=4
+dtoverlay=w1-gpio,gpiopin=4
     
 sudo vi /etc/tellstick.conf
-
-    device {
-        id = 1
-        name = "group-all"
-        model = "selflearning-dimmer:nexa"
-        parameters {
-            house = "16449394"
-            unit = "1"
-        }
+device {
+    id = 1
+    name = "group-all"
+    model = "selflearning-dimmer:nexa"
+    parameters {
+        house = "16449394"
+        unit = "1"
     }
+}
 ```
 
 # Install smart-home
@@ -71,19 +70,17 @@ git clone git@github.com:wittfeldt/smart-home.git
 cd smart-home && npm install
 
 sudo vi /etc/rc.local
-
-    su - pi -c "cd ~/smart-home && forever start -l light.log light-proxy.js"
-    su - pi -c "cd ~/smart-home && forever start -l sensors.log publish-sensors.js -t thing-1451590431656"
+su - pi -c "cd ~/smart-home && forever start -l light.log light-proxy.js"
+su - pi -c "cd ~/smart-home && forever start -l sensors.log publish-sensors.js -t thing-1451590431656"
 
 vi /etc/logrotate.d/forever 
-
-    /home/pi/.forever/*.log {
-      rotate 4
-      weekly
-      compress
-      missingok
-      notifempty
-    }
+/home/pi/.forever/*.log {
+    rotate 4
+    weekly
+    compress
+    missingok
+    notifempty
+}
 ```
 
 # Cleanup
