@@ -56,5 +56,6 @@ events
 .pipe(t.filter)            // extract and re-format relevant events
 .pipe(dimmer)              // intercept and process dim commands
 .pipe(t.merge)             // create composite payload
+// .pipe(t.snoop("merged"))
 .pipe(t.throttle(59*1000)) // limit to max one update per minute
 .pipe(iotWriter)           // publish
