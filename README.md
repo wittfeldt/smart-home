@@ -7,11 +7,11 @@ Given the state of the world one could argue that these items actually constitut
 
 2. Monitoring: humidity level in suspended foundation ("krypgrund") and the water temperature in my floor heating system
 
-When I bought the Nexa dimmers, I also got a Tellstick Duo. It's a USB device that receives and transmits RF-signals (433Mhz), which basically means that you can use it as a light remote or collect readings from wireless sensors.
+When I bought the Nexa dimmers, I also got a Tellstick Duo. It's a USB device that receives and transmits RF-signals  on 433Mhz, which basically means that you can use a computer as a remote or collect readings from wireless sensors.
 
-I realized that the Tellstick could be used as a "mapping layer" between my remotes and dimmer receivers. This would allow me to pair each device once (with the Tellstick) and then control the mapping / grouping completely in software. At first I was concerned about the extra latency between a button press and effect, but a quick proof of concept showed that it was almost not noticable.
+I had this idea of using the Tellstick as a "mapping layer" between my remotes and dimmer receivers. This would allow me to pair each remote / dimmer once (with the Tellstick) and then control the mapping between them completely in software. At first I was concerned about the extra latency between a button press and effect, but a quick proof of concept showed that it was almost not noticable.
 
-Next, I used the Tellstick to listen for sensor transmissions and found both my 433 Mhz temperature + humidity devices. After adding a simple writable stream on top of AWS IoT SDK, sensor readings started flowing into my Kibana visualizations.
+Next, I used the Tellstick to listen for sensor transmissions and found periodic transmissions from both my 433 Mhz temperature + humidity stations. After adding a simple writable stream on top of AWS IoT SDK, sensor readings started flowing into my Kibana visualizations.
 
 For the floor heating I bought two 1-wire temperature sensors which I glued against the flow and return pipe of my floor heating distribution central. At this point i migrated the smart-home software from my iMac to a Raspberry PI installed in the floor heating distribution central to avoid cable installations.
 
