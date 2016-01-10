@@ -28,6 +28,7 @@ module.exports = {
         15: [ 1, 128 ],
         14: [ 1, 255 ]
     },
+    // Outdoor light sensor
     15733738: {
         10: [ 2, 255 ] 
     }
