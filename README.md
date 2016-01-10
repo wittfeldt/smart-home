@@ -15,4 +15,4 @@ Next, I used the Tellstick to listen for sensor transmissions and found both my 
 
 For the floor heating I bought two 1-wire temperature sensors which I glued against the flow and return pipe of my floor heating distribution central. Up until now I had been running the smart-home software on my iMac, but to avoid having long cables I migrated to a Raspberry PI installed in the floor heating distribution central.
 
-In my proffessional life, I'm a software developer at Telenor Connexion so the choice of an IoT backend was not so hard :) We're building our own platform on top of AWS IoT called Cloud Connect so i deciced to use it. The code in this repo can also be used with a standard AWS account, if you want to build your own time series storage, visualizations etc.
+In my professional life, I'm a software developer at Telenor Connexion so the choice of an IoT backend was not so hard :) We're building our own platform on top of AWS IoT called "Cloud Connect" so i deciced to use it. The code in this repo can also be used with a vanilla AWS account, if you want to build your own time series storage, visualizations etc.
