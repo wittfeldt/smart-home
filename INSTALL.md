@@ -24,18 +24,21 @@ sudo apt-get -y install git build-essential
 # Install Node
 
 http://weworkweplay.com/play/raspberry-pi-nodejs/
+
 ```
 wget http://node-arm.herokuapp.com/node_latest_armhf.deb
 sudo dpkg -i node_latest_armhf.deb
 sudo npm install -g forever
 ```
+
 # Install Telldus-Core
 
 https://blogg.itslav.nu/?p=875
 
 Create file /etc/apt/sources.list.d/telldus.list with the following content :
-
-`deb-src http://download.telldus.com/debian/ stable main`
+```
+deb-src http://download.telldus.com/debian/ stable main
+```
 
 ```
 wget http://download.telldus.se/debian/telldus-public.key
@@ -53,7 +56,9 @@ sudo dpkg -i telldus-core_2.1.2-1_armhf.deb
 ```
 
 Add to /boot/config.txt :
-`dtoverlay=w1-gpio,gpiopin=4`
+```
+dtoverlay=w1-gpio,gpiopin=4
+```
     
 Modify /etc/tellstick.conf :
 ```
@@ -75,8 +80,10 @@ git clone git@github.com:wittfeldt/smart-home.git
 cd smart-home && npm install
 ```
 
-Add to /etc/rc.local
-`su - pi -c "cd ~/smart-home && forever start -a --uid smart-home index.js -t <thing name>`
+Add to /etc/rc.local :
+```
+su - pi -c "cd ~/smart-home && forever start -a --uid smart-home index.js -t <thing name>
+```
 
 Create file /etc/logrotate.d/forever with the following content :
 ```
