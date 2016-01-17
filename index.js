@@ -61,5 +61,4 @@ events
 .pipe(dimmer)              // intercept and process dim commands
 .pipe(t.prefix("id"))      // create composite payload
 .pipe(t.throttle(59*1000)) // limit to max one update per minute
-.pipe(t.snoop("throttled"))
-// .pipe(iotWriter)           // publish
+.pipe(iotWriter)           // publish
