@@ -45,6 +45,10 @@ var tellsockEvents = new TellsockStream("raw")
 var oneWire = new DS18B20Reader()
 var events = mergeStream(tellsockEvents, oneWire)
 
+// For testing
+// var TellsockStreamRemote = require("./lib/TellsockStreamRemote")
+// var events = new TellsockStreamRemote("pi@192.168.1.161")
+
 // Transforms
 var t = new Transforms({ highWaterMark: 16 })
 var dimmer = t.dim(new TelldusClient())
@@ -55,7 +59,7 @@ var iotWriter = new IotWriter(options)
 events
 .pipe(t.filter)            // extract and re-format relevant events
 .pipe(dimmer)              // intercept and process dim commands
-.pipe(t.merge)             // create composite payload
-// .pipe(t.snoop("merged"))
+.pipe(t.prefix("id"))      // create composite payload
 .pipe(t.throttle(59*1000)) // limit to max one update per minute
-.pipe(iotWriter)           // publish
+.pipe(t.snoop("throttled"))
+// .pipe(iotWriter)           // publish
