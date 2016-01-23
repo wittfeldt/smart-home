@@ -46,8 +46,8 @@ var oneWire = new DS18B20Reader()
 var events = mergeStream(tellsockEvents, oneWire)
 
 // For testing
-var TellsockStreamRemote = require("./lib/TellsockStreamRemote")
-var events = new TellsockStreamRemote("pi@192.168.1.161")
+// var TellsockStreamRemote = require("./lib/TellsockStreamRemote")
+// var events = new TellsockStreamRemote("pi@192.168.1.161")
 
 // Transforms
 var t = new Transforms({ highWaterMark: 16 })
