@@ -21,6 +21,7 @@
     "glob": "^6.0.4",
     "lodash": "^3.10.1",
     "merge-stream": "^1.0.0",
+    "request": "^2.67.0",
     "stdio": "^0.2.7",
     "tellsock": "^0.3.0",
     "through2": "^2.0.0"
