@@ -5,6 +5,7 @@ var DS18B20Reader = require("./lib/DS18B20Reader")
 var Transforms = require("./lib/transforms")
 var IotWriter = require("./lib/IotWriter")
 var TelldusClient = require('tellsock').TelldusClient
+var EliqStream = require("./lib/EliqStream")
 
 var options = stdio.getopt({
 	'thingName': {
@@ -30,6 +31,10 @@ var options = stdio.getopt({
 		default: false,
 		args: 1
 	},
+	'eliqKey': {
+		description: 'API key for Eliq online',
+		args: 1
+	}
 })
 
 if (options.iamRole) {
@@ -40,10 +45,15 @@ if (options.iamRole) {
     console.log("Assumed IAM role " + options.iamRole)
 }
 
-// Source stream
-var tellsockEvents = new TellsockStream("raw")
-var oneWire = new DS18B20Reader()
-var events = mergeStream(tellsockEvents, oneWire)
+// Source streams
+
+var events = mergeStream()
+events.add(new TellsockStream("raw"))
+events.add(new DS18B20Reader())
+
+if (options.eliqKey) {
+    events.add(new EliqStream(options.eliqKey))
+}
 
 // For testing
 // var TellsockStreamRemote = require("./lib/TellsockStreamRemote")
@@ -51,7 +61,7 @@ var events = mergeStream(tellsockEvents, oneWire)
 
 // Transforms
 var t = new Transforms({ highWaterMark: 16 })
-var dimmer = t.dim(new TelldusClient())
+var dimExec = t.dim(new TelldusClient())
 var dimReplay = t.replay(30 * 60, function(obj) {
     return (typeof obj.dimLevel != 'undefined')
 })
@@ -61,7 +71,7 @@ var iotWriter = new IotWriter(options)
 
 events
 .pipe(t.filter)            // extract and re-format relevant events
-.pipe(dimmer)              // intercept and process dim commands
+.pipe(dimExec)             // intercept and process dim commands
 .pipe(dimReplay)           // emit last dim command once in a while for nicer graphs
 .pipe(t.prefix("id"))      // create composite payload
 .pipe(t.throttle(59*1000)) // limit to ~ 1/60 Hz
