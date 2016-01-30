@@ -1,6 +1,6 @@
 var stdio = require('stdio')
 var mergeStream = require("merge-stream")
-var TellsockStream = require("./lib/TellsockStream")
+var TellsockStream = require("./lib/tellstick/Stream")
 var DS18B20Reader = require("./lib/DS18B20Reader")
 var Transforms = require("./lib/transforms")
 var IotWriter = require("./lib/IotWriter")
@@ -45,6 +45,15 @@ if (options.iamRole) {
     console.log("Assumed IAM role " + options.iamRole)
 }
 
+var ts = new TellsockStream("pi@192.168.1.161")
+var ts2 = new TellsockStream("pi@192.168.1.161")
+var t = new Transforms({ highWaterMark: 16 })
+
+ts.pipe(t.snoop("raw"))
+ts2.pipe(t.snoop("raw2"))
+
+/*
+
 // Source streams
 
 var events = mergeStream()
@@ -76,3 +85,5 @@ events
 .pipe(t.prefix("id"))      // create composite payload
 .pipe(t.throttle(59*1000)) // limit to ~ 1/60 Hz
 .pipe(iotWriter)           // publish to AWS IoT
+
+*/
