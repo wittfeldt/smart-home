@@ -1,14 +1,14 @@
 var chai = require("chai")
 var should = chai.should()
 var MemoryStream = require("memory-stream")
-var _1WireReader = require("../../lib/1-wire/Stream")
+var W1Reader = require("../../lib/1-wire/Reader")
 
 describe('1WireReader', function() {
     
     var memStream = null
     
     before(function(done) {
-        var reader = new _1WireReader({
+        var reader = new W1Reader({
             path: __dirname + "/fixtures/*/w1_slave"
         })
         memStream = new MemoryStream({ objectMode: true })
@@ -18,8 +18,9 @@ describe('1WireReader', function() {
     })
     
     it("emits valid reading containing id and temperature", function(done) {
+        // console.log(memStream.buffer)
         memStream.buffer.should.include({
-            id: "28-OK_CRC",
+            id: "1-wire/28-OK_CRC",
             temperature: 33
         })
         done()
@@ -27,7 +28,7 @@ describe('1WireReader', function() {
     
     it("does not emit readings with bad CRC", function(done) {
         memStream.buffer.should.not.include({
-            id: "28-BAD_CRC",
+            id: "1-wire/28-BAD_CRC",
             temperature: 33
         })
         done()
@@ -35,7 +36,7 @@ describe('1WireReader', function() {
     
     it("emits key + value for unknown sensor families", function(done) {
         memStream.buffer.should.include({
-            id: "42-OK_CRC",
+            id: "1-wire/42-OK_CRC",
             defcon: "3"
         })
         done()
