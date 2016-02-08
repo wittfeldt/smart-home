@@ -17,7 +17,6 @@ module.exports = {
         7: [ 1, 128 ],
         8: [ 1, 255 ]
     },
-
     13781774: {
         // On/off fob by the door
         3: [ 1, 128 ]
@@ -28,9 +27,8 @@ module.exports = {
         15: [ 1, 128 ],
         14: [ 1, 255 ]
     },
-    // Outdoor light sensor
     15733738: {
-        10: [ 2, 255 ] 
+        // Outdoor light sensor
+        10: [ 2, 255 ]
     }
 }
-
