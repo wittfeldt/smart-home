@@ -17,6 +17,10 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-su - pi -c "cd ~/smart-home && forever start -a --uid smart-home index.js -t thing-1451590431656 -r arn:aws:iam::683440172240:role/tcxn"
+su - pi -c "cd ~/smart-home && forever start -a --uid smart-home index.js \
+    -t thing-1455291513093 \
+    -d ~/thing-1455291513093 \
+    -h xxxxxxxxxxxx.iot.eu-west-1.amazonaws.com \
+    -e xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 exit 0

@@ -46,15 +46,6 @@ var oneWire = new OneWire()
 var eliq = new Eliq({ apiKey: options.eliqKey })
 var mqtt = new Mqtt(_.pick(options, [ "certDir", "clientId", "host"]))
 
-// FOR REMOTE RPI
-var sshOpts = {
-    host: "192.168.1.161", 
-    username: "pi",
-    privateKey: require('fs').readFileSync('/Users/andersw/.ssh/id_rsa')
-}
-tellstick = new RemoteStream("./lib/Tellstick", sshOpts)
-oneWire = new RemoteStream("./lib/OneWire", sshOpts)
-
 // Light proxy
 var dimCommands = dimCommands(tellstick, mqtt) // dim commands from mqtt and 433Mhz
 dimExec(dimCommands, tellstick)                // execute commands via tellstick
