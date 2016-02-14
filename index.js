@@ -63,10 +63,6 @@ var publishStream = mergeStream(commandStream, sensorEvents(tellstick), oneWire,
 mqtt.init()
 .then(function(mqtt) {
     
-    // Process incoming commands
-    commandStream
-    .pipe(new CommandExec(mqtt, tellstick))
-    
     // Publish observations
     publishStream
     .pipe(t.dimReplay())          // Replay last dim state for nicer graphs
@@ -74,6 +70,10 @@ mqtt.init()
     .pipe(t.prefixResources())    // { id: 1, foo: 2} => { 1/foo: 2 }
     .pipe(t.throttle(60 * 1000))  // Limit publish to 1/60Hz
     .pipe(mqtt)
+    
+    // Process incoming commands
+    commandStream
+    .pipe(new CommandExec(publishStream, tellstick))
 })
 .catch(function(err) {
     console.log(err.stack)
