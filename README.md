@@ -16,3 +16,20 @@ Next, I used the Tellstick to listen for sensor transmissions and found periodic
 For the floor heating I bought two 1-wire temperature sensors which I glued against the flow and return pipe of my floor heating distribution central. At this point i migrated the smart-home software from my iMac to a Raspberry PI installed in the floor heating distribution central to avoid cable installations.
 
 In my professional life, I'm a software developer at Telenor Connexion so the choice of an IoT backend was not so hard :) We're building our own platform on top of AWS IoT called "Cloud Connect" so i deciced to use it. The code in this repo can also be used with a vanilla AWS account, if you want to build your own time series storage, visualizations etc.
+
+### Remote testing
+
+RemoteStream.js can be used for executing a readable and/or writable object stream over a SSH connection. Use like this:
+
+```
+var sshOpts = {
+    host: "192.168.1.161", 
+    username: "pi",
+    privateKey: require('fs').readFileSync('/Users/andersw/.ssh/id_rsa')
+}
+```
+
+tellstick = new RemoteStream("./lib/Tellstick", sshOpts)
+oneWire = new RemoteStream("./lib/OneWire", sshOpts)
+
+Dependencies must be installed manually on the remote host using npm install -g. You may also need to change the NODE_PATH in RemoteStream.js
