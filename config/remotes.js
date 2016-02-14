@@ -22,7 +22,7 @@ module.exports = {
         3: [ 1, 128 ]
     },
     74738: {
-        // Crappy, plastic 3 button remote
+        // Crappy 3 button remote
         16: [ 1, 16 ],
         15: [ 1, 128 ],
         14: [ 1, 255 ]
