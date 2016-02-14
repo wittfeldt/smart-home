@@ -4,16 +4,17 @@
   "description": "My smart home setup",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "keywords": [
     "tellstick",
     "aws",
     "iot",
+    "eliq",
     "1wire",
     "raspberrypi"
   ],
-  "author": "Anders Wittfeldt <andersw@barometer.se>",
+  "author": "Anders Wittfeldt <anders.wittfeldt@telenorconnexion.com>",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.2.26",
@@ -21,9 +22,12 @@
     "glob": "^6.0.4",
     "lodash": "^3.10.1",
     "merge-stream": "^1.0.0",
-    "request": "^2.67.0",
+    "mqtt": "^1.4.3",
+    "request-promise": "^2.0.0",
+    "ssh2": "^0.4.13",
     "stdio": "^0.2.7",
     "tellsock": "^0.3.0",
     "through2": "^2.0.0"
-  }
+  },
+  "devDependencies": {}
 }

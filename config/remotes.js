@@ -17,20 +17,18 @@ module.exports = {
         7: [ 1, 128 ],
         8: [ 1, 255 ]
     },
-
     13781774: {
         // On/off fob by the door
         3: [ 1, 128 ]
     },
     74738: {
-        // Crappy, plastic 3 button remote
+        // Crappy 3 button remote
         16: [ 1, 16 ],
         15: [ 1, 128 ],
         14: [ 1, 255 ]
     },
-    // Outdoor light sensor
     15733738: {
-        10: [ 2, 255 ] 
+        // Outdoor light sensor
+        10: [ 2, 255 ]
     }
 }
-
