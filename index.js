@@ -48,15 +48,6 @@ var oneWire = new OneWire()
 var eliq = new Eliq({ apiKey: options.eliqKey })
 var mqtt = new Mqtt(_.pick(options, [ "certDir", "clientId", "host"]))
 
-var sshOpts = {
-    host: "192.168.1.161", 
-    username: "pi",
-    privateKey: require('fs').readFileSync('/Users/andersw/.ssh/id_rsa')
-}
-var RemoteStream = require("./lib/RemoteStream")
-tellstick = new RemoteStream("./lib/Tellstick", sshOpts)
-oneWire = new RemoteStream("./lib/OneWire", sshOpts)
-
 var commandStream = mergeStream(dimmerEvents(tellstick), mqtt.deltaEvents())
 var publishStream = mergeStream(commandStream, sensorEvents(tellstick), oneWire, eliq)
 
