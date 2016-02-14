@@ -27,9 +27,9 @@ var sshOpts = {
     username: "pi",
     privateKey: require('fs').readFileSync('/Users/andersw/.ssh/id_rsa')
 }
-```
 
 tellstick = new RemoteStream("./lib/Tellstick", sshOpts)
 oneWire = new RemoteStream("./lib/OneWire", sshOpts)
+```
 
 Dependencies must be installed manually on the remote host using npm install -g. You may also need to change the NODE_PATH in RemoteStream.js

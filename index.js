@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 var stdio = require('stdio')
+var through2 = require("through2")
+var mergeStream = require("merge-stream")
 var _ = require("lodash")
 
 var Tellstick = require("./lib/Tellstick")
@@ -8,12 +10,12 @@ var OneWire = require("./lib/OneWire")
 var Eliq = require("./lib/Eliq")
 var Mqtt = require("./lib/Mqtt")
 
-var Light = require("./lib/Light")
-var dimCommands = Light.dimCommands
-var dimExec = Light.dimExec
-var upstream = require("./lib/Upstream")
+var dimmerEvents = Tellstick.dimmerEvents
+var sensorEvents = Tellstick.sensorEvents
+var CommandExec = require("./lib/CommandExec")
 
-var RemoteStream = require("./lib/RemoteStream")
+var Transforms = require("./lib/Transforms")
+var t = new Transforms({ highWatermark: 16 })
 
 var options = stdio.getopt({
 	'clientId': {
@@ -46,11 +48,33 @@ var oneWire = new OneWire()
 var eliq = new Eliq({ apiKey: options.eliqKey })
 var mqtt = new Mqtt(_.pick(options, [ "certDir", "clientId", "host"]))
 
-// Light proxy
-var dimCommands = dimCommands(tellstick, mqtt) // dim commands from mqtt and 433Mhz
-dimExec(dimCommands, tellstick)                // execute commands via tellstick
+var sshOpts = {
+    host: "192.168.1.161", 
+    username: "pi",
+    privateKey: require('fs').readFileSync('/Users/andersw/.ssh/id_rsa')
+}
+var RemoteStream = require("./lib/RemoteStream")
+tellstick = new RemoteStream("./lib/Tellstick", sshOpts)
+oneWire = new RemoteStream("./lib/OneWire", sshOpts)
 
-// Iot upstream
-var upstream = upstream(tellstick, oneWire, eliq, dimCommands)
-mqtt.connect()
-.then(upstream.pipe.bind(upstream, mqtt))
+var commandStream = mergeStream(dimmerEvents(tellstick), mqtt.deltaEvents())
+var publishStream = mergeStream(commandStream, sensorEvents(tellstick), oneWire, eliq)
+
+mqtt.init()
+.then(function(mqtt) {
+    
+    // Process incoming commands
+    commandStream
+    .pipe(new CommandExec(mqtt, tellstick))
+    
+    // Publish observations
+    publishStream
+    .pipe(t.dimReplay())          // Replay last dim state for nicer graphs
+    .pipe(t.idMapper())           // Use human-friendly id for known sensors
+    .pipe(t.prefixResources())    // { id: 1, foo: 2} => { 1/foo: 2 }
+    .pipe(t.throttle(60 * 1000))  // Limit publish to 1/60Hz
+    .pipe(mqtt)
+})
+.catch(function(err) {
+    console.log(err.stack)
+})
