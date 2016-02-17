@@ -112,3 +112,11 @@ https://smittytone.wordpress.com/2013/09/06/back-up-a-raspberry-pi-sd-card-using
 diskutil unmountDisk /dev/disk3`
 gzip -dc ~/Desktop/pi.gz | sudo dd of=/dev/rdisk3 bs=1m
 ```
+
+# Readonly filesystem (work in progress)
+
+```
+sudo dphys-swapfile swapoff
+sudo dphys-swapfile uninstall
+sudo update-rc.d dphys-swapfile remove
+```
