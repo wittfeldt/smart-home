@@ -113,31 +113,6 @@ diskutil unmountDisk /dev/disk3`
 gzip -dc ~/Desktop/pi.gz | sudo dd of=/dev/rdisk3 bs=1m
 ```
 
-# Readonly filesystem (work in progress)
+# Readonly filesystem
 
-### Remove some packages we don't need
-´´´
-apt-get remove -y --purge wolfram-engine triggerhappy cron logrotate dbus dphys-swapfile xserver-common lightdm fake-hwclock
-apt-get autoremove -y --purge
-´´´
-
-### replace log management with busybox, you can read the logs with logread
-´´´
-apt-get install -y busybox-syslogd
-dpkg --purge rsyslog
-´´´
-
-´´´
-vi /boot/cmdline.txt
-# Add "fastboot noswap ro" to the end of the line
-
-vi /etc/fstab
-...
-proc            /proc           proc    defaults          0       0
-/dev/mmcblk0p1  /boot           vfat    defaults,ro          0       2
-/dev/mmcblk0p2  /               ext4    defaults,noatime,ro  0       1
-tmpfs   /var/log        tmpfs   nodev,nosuid    0       0
-tmpfs   /var/tmp        tmpfs   nodev,nosuid    0       0
-tmpfs   /tmp        tmpfs   nodev,nosuid    0   0
-...
-´´´
+See http://petr.io/2015/11/09/read-only-raspberry-pi-with-jessie/
