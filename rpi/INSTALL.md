@@ -112,3 +112,7 @@ https://smittytone.wordpress.com/2013/09/06/back-up-a-raspberry-pi-sd-card-using
 diskutil unmountDisk /dev/disk3`
 gzip -dc ~/Desktop/pi.gz | sudo dd of=/dev/rdisk3 bs=1m
 ```
+
+# Readonly filesystem
+
+See http://petr.io/2015/11/09/read-only-raspberry-pi-with-jessie/
